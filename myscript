@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#list of args
+# 1. to
+# 2. name of arcive
+# 3. what kind of files
+
+#if [-e "$2"]
+#then
+    cd $1
+#else
+#    cd
+#fi
+
+#if [-n "$3"]
+#then
+    mkdir $2 >&- 2>&-
+#else
+#    mkdir newarc
+#fi
+cd $1/$2
+loc=`pwd`
+cd $HOME
+
+
+#cd
+
+count=1
+for param in "$@"
+do 
+   if [ $count -gt 2 ]
+   then
+       find  -not -iwholename '$2' -iname "*.$param"  >&- 2>&- -exec  cp --backup=numbered {} $loc \;
+   fi 
+count=$(( $count+1 ))
+done
+cd $1
+tar -cf $2.tar $2
